@@ -1,0 +1,18 @@
+{
+  "name": "doggy",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-native start server --transformer scalajsTransformer.js"
+  },
+  "dependencies": {
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.46.0",
+    "prop-types": "^15.5.8",
+    "react-navigation": "^1.0.0-beta.11"
+  },
+  "devDependencies": {
+    "babel-preset-react-native": "1.9.1",
+    "react-test-renderer": "16.0.0-alpha.6"
+  }
+}
