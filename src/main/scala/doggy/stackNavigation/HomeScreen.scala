@@ -2,7 +2,6 @@ package doggy.stackNavigation
 
 import doggy.stackNavigation.ScreenWithParams.Params
 import sri.macros.OptionalParam._
-import sri.macros.{OptDefault => NoValue, OptionalParam => U}
 import sri.navigation._
 import sri.universal.components._
 import sri.universal.styles.InlineStyleSheetUniversal
@@ -32,10 +31,11 @@ class HomeScreen extends NavigationScreenComponentNoPS {
       onPress = onPress,
       activeOpacity = 0.8
     )(
-      Text(style = styles.blockText)(title),
-      Image(
+      ImageBackground(
         source = ImageSource(s"https://png.icons8.com/ultraviolet/100/${title.toLowerCase}.png"),
         style = styles.icon
+      )(
+        Text(style = styles.blockText)(title)
       )
     )
 }
@@ -50,7 +50,8 @@ object HomeScreen {
       flex := 1,
       padding := 20,
       flexDirection.row,
-      flexWrap.wrap
+      flexWrap.wrap,
+      justifyContent.center
     )
 
     val block = style(
@@ -78,7 +79,10 @@ object HomeScreen {
 
     val icon = style(
       width := 100,
-      height := 100
+      height := 100,
+      justifyContent.center,
+      alignItems.center,
+      backgroundColor := "rgba(0,0,0,0)" // fix non-transparent Text background on iOS
     )
   }
 

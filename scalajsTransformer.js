@@ -1,19 +1,38 @@
-var transformer = require('metro-bundler/build/transformer');
+'use strict';
+// https://github.com/ds300/react-native-typescript-transformer/blob/master/index.js
+let upstreamTransformer = null;
 
-function transform(input) {
-    var options = input.options || {};
-    var src = input.src;
-    var filename = input.filename;
-    if(filename.indexOf('scalajs-output-') > -1) {
-        return {
-            code: src,
-            filename,
-            // map: filename + '.map', //TODO check later for .map
-        };
-    } else {
-        return transformer.transform(input)
+try {
+    // handle RN >= 0.47
+    upstreamTransformer = require('metro-bundler/src/transformer')
+} catch (e) {
+    try {
+        // handle RN 0.46
+        upstreamTransformer = require('metro-bundler/build/transformer')
+    } catch (e) {
+        // handle RN <= 0.45
+        const oldUpstreamTransformer = require('react-native/packager/transformer');
+        upstreamTransformer = {
+            transform({src, filename, options}) {
+                return oldUpstreamTransformer.transform(src, filename, options)
+            },
+        }
     }
-
 }
 
-module.exports.transform = transform;
+module.exports.transform = (src, filename, options) => {
+    if (typeof src === 'object') {
+        // handle RN >= 0.46
+        ;({src, filename, options} = src)
+    }
+    if (filename.indexOf('scalajs-output-') > -1) {
+        return {
+            src,
+            filename,
+            options,
+            map: filename + '.map'
+        };
+    } else {
+        return upstreamTransformer.transform({src, filename, options});
+    }
+};

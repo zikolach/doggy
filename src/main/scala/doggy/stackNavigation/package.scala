@@ -23,9 +23,8 @@ package object stackNavigation {
       title = "Custom Right",
       headerRight = Button(title = "Right",
         color = if (SriPlatform.isIOS) "white" else "#546E7A",
-        onPress = () =>
-          Alert.alert(title = "Alert",
-            message = "You just pressed right button!"))
+        onPress = () => Alert.alert(title = "Alert", message = "You just pressed right button!")
+      )
     )
     ),
     registerStackScreen[LazyLoadScreen](navigationOptions = NavigationStackScreenOptions(
