@@ -23,14 +23,15 @@ try {
 module.exports.transform = (src, filename, options) => {
     if (typeof src === 'object') {
         // handle RN >= 0.46
-        ;({src, filename, options} = src)
+        ({src, filename, options} = src)
     }
     if (filename.indexOf('scalajs-output-') > -1) {
         return {
-            src,
+            ast: null,
+            code: src,
             filename,
-            options,
-            map: filename + '.map'
+            // TODO: generate source map
+            // map: filename + '.map'
         };
     } else {
         return upstreamTransformer.transform({src, filename, options});
